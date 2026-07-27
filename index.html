@@ -11,8 +11,8 @@
 <meta property="og:url" content="https://rahil-mahajuba.skenllp.com/">
 <meta property="og:title" content="Mohammed Rahil & Mahajuba — Be Our Guest">
 <meta property="og:description" content="You are invited to the wedding celebration of Mohammed Rahil & Mahajuba, Sunday 23 August 2026, Sea Shore Auditorium (Ojintakam Hall).">
-<meta property="og:image" content="https://rahil-mahajuba.skenllp.com/og-image.jpg?v=3">
-<meta property="og:image:secure_url" content="https://rahil-mahajuba.skenllp.com/og-image.jpg?v=3">
+<meta property="og:image" content="https://rahil-mahajuba.skenllp.com/og-image.jpg?v=4">
+<meta property="og:image:secure_url" content="https://rahil-mahajuba.skenllp.com/og-image.jpg?v=4">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mohammed Rahil & Mahajuba — Be Our Guest">
 <meta name="twitter:description" content="You are invited to the wedding celebration of Mohammed Rahil & Mahajuba, Sunday 23 August 2026, Sea Shore Auditorium (Ojintakam Hall).">
-<meta name="twitter:image" content="https://rahil-mahajuba.skenllp.com/og-image.jpg?v=3">
+<meta name="twitter:image" content="https://rahil-mahajuba.skenllp.com/og-image.jpg?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -56,7 +56,7 @@
 }
 
 *{box-sizing:border-box; margin:0; padding:0;}
-html{scroll-behavior:auto; height:100%;}
+html{scroll-behavior:auto;}
 body{
   font-family: var(--body);
   background: var(--beige);
@@ -1660,12 +1660,15 @@ window.WEDDING_CONFIG = {
     // Lenis smooth scroll
     if(window.Lenis){
       const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
-      function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
-      requestAnimationFrame(raf);
       if(window.gsap && window.ScrollTrigger){
+        // Let GSAP's ticker drive Lenis — never run both RAF loops
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => { lenis.raf(time * 1000); });
         gsap.ticker.lagSmoothing(0);
+      } else {
+        // Fallback: plain RAF loop when GSAP isn't available
+        function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
       }
     }
 
